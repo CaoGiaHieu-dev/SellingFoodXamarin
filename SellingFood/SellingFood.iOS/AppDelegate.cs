@@ -26,8 +26,10 @@ namespace SellingFood.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
+            AppCenter.Start("f656bad1-0b98-464f-af3a-c68ba542f61a",
+                   typeof(Analytics), typeof(Crashes));
             return base.FinishedLaunching(app, options);
+            
         }
         void Start()
         {
