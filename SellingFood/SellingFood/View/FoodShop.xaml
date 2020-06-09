@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:Helper="clr-namespace:SellingFood.Helper"
+             xmlns:ViewModel="clr-namespace:SellingFood.ViewModel.FoodShop"
+             x:Class="SellingFood.View.FoodShop">
+    <ContentPage.BindingContext>
+        <ViewModel:FoodShopViewModel></ViewModel:FoodShopViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="StackLayout">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Blue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" HeightRequest="60">
+                    <Frame BorderColor="Black" HorizontalOptions="CenterAndExpand" HasShadow="False" IsClippedToBounds="True" CornerRadius="35" Padding="0">
+                        <SearchBar Placeholder="Search" HorizontalOptions="End" HeightRequest="50" TextColor="Black" VerticalOptions="Center" SearchCommand="{Binding }" Text="{Binding SearchText,Mode=TwoWay}"></SearchBar>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Row="1" IsClippedToBounds="True">
+                    <CollectionView x:Name="lsvData"  ItemsSource="{Binding foodList}" SelectedItem="{Binding selectFoodList}" SelectionMode="Single">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="2"></GridItemsLayout>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Frame BorderColor="DimGray" Margin="10" HasShadow="False" IsClippedToBounds="True" CornerRadius="15" Padding="10" >
+                                        <StackLayout IsClippedToBounds="True" Orientation="Vertical" VerticalOptions="Center" Padding="10">
+                                            <Image Source="{Binding Image}" Aspect="Fill" WidthRequest="80" HeightRequest="100"></Image>
+                                            <StackLayout Padding="20">
+                                                <Label Text="{Binding Name}" TextColor="Black" FontSize="20"></Label>
+                                                <Label Text="{Binding Price}" TextColor="Black" FontSize="15"></Label>
+                                            </StackLayout>
+                                            <Frame BorderColor="Black">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Image Source="{Helper:ImageResource SellingFood.Images.Minus.png}" Aspect="AspectFill" HeightRequest="25"></Image>
+
+                                                    <Label Text="1" TextColor="Black" FontSize="18" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                                                    
+                                                    <Image Source="{Helper:ImageResource SellingFood.Images.Plus.png}" Aspect="AspectFill" HeightRequest="25">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Source={x:Reference lsvData},Path=BindingContext.AddtoCart}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+            <AbsoluteLayout AbsoluteLayout.LayoutBounds=".95,.95,80,80"  AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Frame  HasShadow="False" BackgroundColor="LightGray" CornerRadius="100" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
+                    <Image Source="{Helper:ImageResource SellingFood.Images.Cart.png}" Aspect="AspectFill"></Image>
+                </Frame>
+                <Label  FontSize="25" BackgroundColor="Transparent" Text="{Binding foodList.Count}" HorizontalOptions="Center" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".95,.95,80,80"/>
+            </AbsoluteLayout>
+            
+            
+        </AbsoluteLayout>
+        
+        
+    </ContentPage.Content>
+</ContentPage>

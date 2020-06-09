@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:ViewModel="clr-namespace:SellingFood.ViewModel.FoodShop"
+             x:Class="SellingFood.View.Order">
+
+    <ContentPage.BindingContext>
+        <ViewModel:FoodShopViewModel></ViewModel:FoodShopViewModel>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame HasShadow="False" BackgroundColor="LightGray" CornerRadius="100" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
+                <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" FontSize="25" TextColor="Black"  Text="{Binding Source={x:Reference lsvData} ,Path=ItemsSource.Count}"></Label>
+            </Frame>
+            <ListView x:Name="lsvData"  ItemsSource="{Binding cartList}" HasUnevenRows="True" CachingStrategy="RecycleElement" SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding Image}" Aspect="AspectFit"></Image>
+                                <StackLayout Grid.Column="1" Padding="10" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding Price}"></Label>
+                                        <Label Grid.Row="0" Text="{Binding Name}"></Label>
+                                        <Label Grid.Row="1" Text="{Binding Detail}"></Label>
+                                    </Grid>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

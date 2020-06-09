@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Helper="clr-namespace:SellingFood.Helper"
+             mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="True"
+             xmlns:View="clr-namespace:SellingFood.View"
+             x:Class="SellingFood.View.DetailPage">
+  <!--Pages can be added as references or inline-->
+    <TabbedPage.Children>
+        <View:FoodShop IconImageSource="{Helper:ImageResource SellingFood.Images.Home.png}">
+
+        </View:FoodShop>
+        
+        <View:Order IconImageSource="{Helper:ImageResource SellingFood.Images.Order.png}">
+
+        </View:Order>
+
+        <View:Nofication IconImageSource="{Helper:ImageResource SellingFood.Images.Notification.png}" >
+
+        </View:Nofication>
+
+    </TabbedPage.Children>
+</TabbedPage>
