@@ -1,4 +1,5 @@
 ﻿using SellingFood.Helper;
+using SellingFood.Model.FoodShop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,9 +19,23 @@ namespace SellingFood.View
         {
             InitializeComponent();
         }
+
+        private SellingFood.ViewModel.FoodShop.FoodShopViewModel ViewModel
+        {
+            get { return BindingContext as SellingFood.ViewModel.FoodShop.FoodShopViewModel; }
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            try
+            {
+                //ViewModel.LoadFood();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

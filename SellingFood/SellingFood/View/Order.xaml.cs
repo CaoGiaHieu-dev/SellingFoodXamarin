@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,11 @@ namespace SellingFood.View
 
             }
 
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(new PopupPurchange());
         }
     }
 }

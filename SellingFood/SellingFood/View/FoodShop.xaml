@@ -19,7 +19,7 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
-                                        Value="Blue" />
+                                        Value="White" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -29,21 +29,35 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <AbsoluteLayout>
+        <StackLayout VerticalOptions="FillAndExpand">
 
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" HeightRequest="60">
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" HeightRequest="60" Padding="5">
                     <Frame BorderColor="Black" HorizontalOptions="CenterAndExpand" HasShadow="False" IsClippedToBounds="True" CornerRadius="35" Padding="0">
                         <SearchBar Placeholder="Search" HorizontalOptions="End" HeightRequest="50" TextColor="Black" VerticalOptions="Center" SearchCommand="{Binding }" Text="{Binding SearchText,Mode=TwoWay}"></SearchBar>
                     </Frame>
                 </StackLayout>
 
+                <!--<Frame Grid.Row="1" BackgroundColor="LightGray" BorderColor="Black" HasShadow="False" Padding="1" Margin="5">
+                    <Image Source="{Helper:ImageResource SellingFood.Images.LogoBrand.jpg}" Aspect="AspectFill" ></Image>
+                </Frame>-->
+
                 <StackLayout Grid.Row="1" IsClippedToBounds="True">
-                    <CollectionView x:Name="lsvData"  ItemsSource="{Binding foodList}" SelectedItem="{Binding selectFoodList}" SelectionMode="Single">
+                    <CollectionView x:Name="lsvData" IsGrouped="{Binding CollapseFood}" ItemsSource="{Binding foodList}" SelectedItem="{Binding selectFoodList}" SelectionMode="Single" >
+                        <CollectionView.Header>
+                            <Frame Grid.Row="1" VerticalOptions="Center" WidthRequest="60" BackgroundColor="LightGray" BorderColor="Black" HasShadow="False" Padding="1" Margin="5">
+                                <Image Source="{Helper:ImageResource SellingFood.Images.LogoBrand.jpg}" Aspect="AspectFill" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding collapseFoodList}"></TapGestureRecognizer>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Frame>
+                            <!--<Label Text="Food List" TextColor="Black" FontSize="Title" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" ></Label>-->
+                        </CollectionView.Header>
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="2"></GridItemsLayout>
                         </CollectionView.ItemsLayout>
@@ -52,22 +66,23 @@
                                 <StackLayout>
                                     <Frame BorderColor="DimGray" Margin="10" HasShadow="False" IsClippedToBounds="True" CornerRadius="15" Padding="10" >
                                         <StackLayout IsClippedToBounds="True" Orientation="Vertical" VerticalOptions="Center" Padding="10">
-                                            <Image Source="{Binding Image}" Aspect="Fill" WidthRequest="80" HeightRequest="100"></Image>
-                                            <StackLayout Padding="20">
+                                            <Frame BorderColor="White" HasShadow="False" Padding="0">
+                                                <Image Source="{Binding Image}" Aspect="Fill" WidthRequest="80" HeightRequest="100"></Image>
+                                            </Frame>
+                                            
+                                            <StackLayout Padding="5">
                                                 <Label Text="{Binding Name}" TextColor="Black" FontSize="20"></Label>
-                                                <Label Text="{Binding Price}" TextColor="Black" FontSize="15"></Label>
+                                                <Label Text="{Binding Price , Mode=TwoWay, StringFormat='{0:$,0,0}'}" TextColor="Black" FontSize="15"></Label>
                                             </StackLayout>
-                                            <Frame BorderColor="Black">
-                                                <StackLayout Orientation="Horizontal">
-                                                    <Image Source="{Helper:ImageResource SellingFood.Images.Minus.png}" Aspect="AspectFill" HeightRequest="25"></Image>
+                                            
+                                            <Frame BorderColor="Black" >
+                                                <StackLayout Orientation="Horizontal" >
+                                                    <ImageButton Source="{Helper:ImageResource SellingFood.Images.Minus.png}" Aspect="AspectFill" HeightRequest="25"></ImageButton>
 
-                                                    <Label Text="1" TextColor="Black" FontSize="18" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
-                                                    
-                                                    <Image Source="{Helper:ImageResource SellingFood.Images.Plus.png}" Aspect="AspectFill" HeightRequest="25">
-                                                        <Image.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding Source={x:Reference lsvData},Path=BindingContext.AddtoCart}" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                                                        </Image.GestureRecognizers>
-                                                    </Image>
+                                                    <Label Text="{Binding Number}" TextColor="Black" FontSize="18" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+
+                                                    <ImageButton Command="{Binding Source={x:Reference lsvData},Path=BindingContext.AddtoCart}" Source="{Helper:ImageResource SellingFood.Images.Plus.png}" Aspect="AspectFill" HeightRequest="25" >
+                                                    </ImageButton>
                                                 </StackLayout>
                                             </Frame>
                                         </StackLayout>
@@ -78,15 +93,9 @@
                     </CollectionView>
                 </StackLayout>
             </Grid>
-            <AbsoluteLayout AbsoluteLayout.LayoutBounds=".95,.95,80,80"  AbsoluteLayout.LayoutFlags="PositionProportional">
-                <Frame  HasShadow="False" BackgroundColor="LightGray" CornerRadius="100" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
-                    <Image Source="{Helper:ImageResource SellingFood.Images.Cart.png}" Aspect="AspectFill"></Image>
-                </Frame>
-                <Label  FontSize="25" BackgroundColor="Transparent" Text="{Binding foodList.Count}" HorizontalOptions="Center" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".95,.95,80,80"/>
-            </AbsoluteLayout>
             
             
-        </AbsoluteLayout>
+        </StackLayout>
         
         
     </ContentPage.Content>

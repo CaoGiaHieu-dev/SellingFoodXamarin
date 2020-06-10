@@ -74,7 +74,7 @@ namespace SellingFood.ViewModel.FoodShop
                 {
                     _foodList = value;
                 }
-                OnPropertyChanged();
+                OnPropertyChanged("foodList");
             }
         }
         #endregion
@@ -96,6 +96,9 @@ namespace SellingFood.ViewModel.FoodShop
         // Add to cart
         public ICommand AddtoCart { get; set; }
 
+        //Collapse food list
+        public ICommand collapseFoodList { get; set; }
+
         //Select FoodList
         private FoodShopModel _selectFoodList { get; set; }
         public FoodShopModel selectFoodList
@@ -114,6 +117,14 @@ namespace SellingFood.ViewModel.FoodShop
         }
         #endregion
 
+        #region Field
+        //Number items
+        private Boolean _CollapseFood;
+        public Boolean CollapseFood { get => _CollapseFood; set { _CollapseFood = value; OnPropertyChanged(); } }
+        //Total cart list
+        private float _totalMoney;
+        public float totalMoney { get => _totalMoney; set { _totalMoney = value; OnPropertyChanged(); } }
+        #endregion
 
     }
 }

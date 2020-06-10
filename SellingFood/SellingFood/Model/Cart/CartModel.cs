@@ -20,6 +20,7 @@ namespace SellingFood.Model.Cart
         [JsonProperty("Price")]
         public float Price { get; set; }
         public int Number { get; set; }
+        public float Total { get; set; }
 
     }
 

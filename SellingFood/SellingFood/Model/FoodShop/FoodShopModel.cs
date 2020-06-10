@@ -12,5 +12,7 @@ namespace SellingFood.Model.FoodShop
         public string Detail { get; set; }
         public ImageSource Image { get; set; }
         public float Price { get; set; }
+        public int Number { get; set; }
+        
     }
 }

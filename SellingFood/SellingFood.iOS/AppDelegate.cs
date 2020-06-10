@@ -24,16 +24,12 @@ namespace SellingFood.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rg.Plugins.Popup.Popup.Init();
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-            AppCenter.Start("f656bad1-0b98-464f-af3a-c68ba542f61a",
-                   typeof(Analytics), typeof(Crashes));
             return base.FinishedLaunching(app, options);
             
-        }
-        void Start()
-        {
-            AppCenter.Start("{Your App Secret}", typeof(Analytics), typeof(Crashes));
         }
     }
 }
