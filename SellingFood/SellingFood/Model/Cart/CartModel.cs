@@ -19,7 +19,9 @@ namespace SellingFood.Model.Cart
         public ImageSource Image { get; set; }
         [JsonProperty("Price")]
         public float Price { get; set; }
+        [JsonProperty("Number")]
         public int Number { get; set; }
+        [JsonProperty("Total")]
         public float Total { get; set; }
 
     }

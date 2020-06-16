@@ -15,6 +15,9 @@ namespace SellingFood.ViewModel.FoodShop
         #region Property
         public string url = "SellingFood.Images.";
 
+        //Firebase
+        //public Model.FirebaseHelper Firebase = new Model.FirebaseHelper();
+
         //Search Command Execute
         private void SearchCommandExecute()
         {

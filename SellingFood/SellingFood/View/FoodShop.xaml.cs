@@ -1,5 +1,6 @@
 ﻿using SellingFood.Helper;
 using SellingFood.Model.FoodShop;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace SellingFood.View
         public FoodShop()
         {
             InitializeComponent();
+            
         }
 
         private SellingFood.ViewModel.FoodShop.FoodShopViewModel ViewModel

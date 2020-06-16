@@ -18,10 +18,11 @@ namespace SellingFood.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
             base.OnCreate(savedInstanceState);
 
-            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -33,5 +34,6 @@ namespace SellingFood.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
     }
 }

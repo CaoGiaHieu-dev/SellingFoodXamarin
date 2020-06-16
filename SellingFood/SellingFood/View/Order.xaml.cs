@@ -1,4 +1,7 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +32,7 @@ namespace SellingFood.View
             base.OnAppearing();
             try
             {
-                ViewModel.LoadCart();
+                ViewModel.LoadCartAsync();
             }
             catch
             {
@@ -38,9 +41,9 @@ namespace SellingFood.View
 
         }
 
-        private void ImageButton_Clicked(object sender, EventArgs e)
+        private async void ImageButton_Clicked(object sender, EventArgs e)
         {
-            PopupNavigation.PushAsync(new PopupPurchange());
+            await Navigation.PushPopupAsync(new Purchange());
         }
     }
 }

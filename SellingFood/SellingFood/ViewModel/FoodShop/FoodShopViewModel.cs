@@ -10,12 +10,15 @@ using SellingFood.ViewModel.Cart;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Linq;
+using SQLite;
+using SellingFood.Model;
 
 namespace SellingFood.ViewModel.FoodShop
 {
     public class FoodShopViewModel : FoodShopControl
     {
         #region Display Value
+
 
         /// <summary>
         /// Load FoodList
@@ -53,11 +56,14 @@ namespace SellingFood.ViewModel.FoodShop
                 },
             };
             DefaultList = foodList;
+
+            
+
         }
         /// <summary>
         /// Load CartList
         /// </summary>
-        public void LoadCart()
+        public async Task LoadCartAsync()
         {
             totalMoney = 0;
             cartList = new ObservableCollection<CartModel>(CartStore);
@@ -65,6 +71,36 @@ namespace SellingFood.ViewModel.FoodShop
             {
                 totalMoney += total.Total;
             }
+
+            var temp = await FirebaseHelper.GetCartModel(selectFoodList.Id);
+
+            //Update if allready exits items
+            if (temp != null)
+            {
+                foreach (var items in CartStore)
+                {
+                    if(items.Id == selectFoodList.Id)
+                    {
+                        await FirebaseHelper.UpdateCartModel(items.Id, items.Name, items.Detail, items.Image.ToString(), items.Number , items.Price, items.Total);
+                    }
+                }
+            }
+
+            // Adding new items 
+            else
+            {
+                foreach (var items in CartStore)
+                {
+                    if (items.Id == selectFoodList.Id)
+                    {
+                        await FirebaseHelper.AddCartModel(items.Id, items.Name, items.Detail, items.Image.ToString(), items.Number, items.Price, items.Total);
+                    }
+                }
+                    
+            }
+            
+
+           
         }
         #endregion
 
@@ -74,7 +110,7 @@ namespace SellingFood.ViewModel.FoodShop
         /// Add to cart store
         /// </summary>
         /// <param name="items"></param>
-        public void AddCart(CartModel items)
+        public async Task AddCartAsync(CartModel items)
         {
             if (CartStore.Where(x => x.Id == selectFoodList.Id).Any() )
             {
@@ -94,8 +130,7 @@ namespace SellingFood.ViewModel.FoodShop
                     Number = numbertemp.Number + 1,
                     Total = (numbertemp.Number + 1)*numbertemp.Price,
                 });
-                //UpdateCart();
-                
+
                 //Create food list temp and update
                 var tempfoodlist = foodList.Select(c => { c.Number = numbertemp.Number + 1; return c; }).ToList().Where(x => x.Id ==selectFoodList.Id);
                 foreach (var item in foodList.Where(x => x.Id == selectFoodList.Id ).ToList())
@@ -103,6 +138,8 @@ namespace SellingFood.ViewModel.FoodShop
                     foodList.Remove(item);
                     foodList.Insert(item.Id-1, tempfoodlist.FirstOrDefault());
                 }
+
+                
 
                 //Reload food list
                 OnPropertyChanged("foodList");
@@ -142,8 +179,11 @@ namespace SellingFood.ViewModel.FoodShop
                 OnPropertyChanged("foodList");
 
                 //foodList.Select(c => { c.Number = numbertemp.Number + 1; return c; }).ToList();
+
+                //await FirebaseHelper.AddCartModel(selectFoodList.Id, selectFoodList.Name, selectFoodList.Detail, selectFoodList.Image.ToString(), numbertemp.Number + 1, selectFoodList.Price, (numbertemp.Number + 1) * numbertemp.Price);
             }
-            LoadCart();
+            //await FirebaseHelper.AddCartModel(1, "1", "1", ImageSource.FromResource("1"), 1, 1, 1);
+            LoadCartAsync();
         }
 
         ///<summary>
@@ -168,7 +208,7 @@ namespace SellingFood.ViewModel.FoodShop
                 Price = selectFoodList.Price,
                 Number = 1,
             };
-            AddCart(cartListTemp);
+            AddCartAsync(cartListTemp);
             
             //await Application.Current.MainPage.DisplayAlert("Sussces", "Add sussces : " + selectFoodList.Name, "OK");
         }
@@ -188,13 +228,11 @@ namespace SellingFood.ViewModel.FoodShop
 
         public FoodShopViewModel()
         {
-            CollapseFood = false;
+            CollapseFood = true;
 
             this.foodList = new ObservableCollection<FoodShopModel>();
             LoadFood();
-
             
-
             CartStore = new List<CartModel>();
             AddtoCart = new Command(async () => await AddToCart());
             collapseFoodList = new Command(async () => await CollapseFoodList());
