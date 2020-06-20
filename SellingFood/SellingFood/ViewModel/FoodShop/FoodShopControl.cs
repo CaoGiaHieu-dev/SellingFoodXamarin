@@ -1,4 +1,5 @@
-﻿using SellingFood.Model.Cart;
+﻿using Realms;
+using SellingFood.Model.Cart;
 using SellingFood.Model.FoodShop;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,6 @@ namespace SellingFood.ViewModel.FoodShop
     {
         #region Property
         public string url = "SellingFood.Images.";
-
-        //Firebase
-        //public Model.FirebaseHelper Firebase = new Model.FirebaseHelper();
 
         //Search Command Execute
         private void SearchCommandExecute()
@@ -38,7 +36,14 @@ namespace SellingFood.ViewModel.FoodShop
         #endregion
 
         #region DataStore
+        //CartStore
         public static List<CartModel> CartStore { get; set; }
+
+        //Firebase
+        public Model.FirebaseHelper Firebase = new Model.FirebaseHelper();
+
+        //Realm
+        //public Realm RealmDB = Realm.GetInstance();
         #endregion
 
         #region Model

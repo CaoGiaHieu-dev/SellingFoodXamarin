@@ -4,17 +4,54 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:viewmodel="clr-namespace:SellingFood.ViewModel.FoodShop"
              xmlns:Animation="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              mc:Ignorable="d"
              x:Class="SellingFood.View.Purchange">
     <pages:PopupPage.Animation>
         <Animation:ScaleAnimation DurationIn="400" DurationOut="300" EasingIn="SinOut" EasingOut="SinIn" HasBackgroundAnimation="True" PositionIn="Center" PositionOut="Center" ScaleIn="1.2" ScaleOut="0.8"></Animation:ScaleAnimation>
     </pages:PopupPage.Animation>
+
+    <pages:PopupPage.BindingContext>
+        <viewmodel:FoodShopViewModel></viewmodel:FoodShopViewModel>
+    </pages:PopupPage.BindingContext>
     
     <ContentPage.Content>
         <Frame BackgroundColor="White" HasShadow="True" CornerRadius="10" Margin="20,0,20,0" VerticalOptions="Center" HorizontalOptions="Center">
             <StackLayout>
                 <Label Text="Order confirmation" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+
+                <ListView ItemsSource="{Binding cartList}" HasUnevenRows="True" BackgroundColor="White" SeparatorColor="#DBF26F" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Grid.Row="0"  Text="{Binding Name}" HorizontalOptions="CenterAndExpand" FontSize="Medium"></Label>
+
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Number}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+
+                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Price, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+
+                                        
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="{Binding totalMoney , StringFormat='{0:$,0,0}'}" FontSize="30" HorizontalOptions="End"></Label>
+                
                 <Button Text="Order" TextColor="Black" BackgroundColor="#6DB64C" Command="{Binding }"></Button>
             </StackLayout>
         </Frame>

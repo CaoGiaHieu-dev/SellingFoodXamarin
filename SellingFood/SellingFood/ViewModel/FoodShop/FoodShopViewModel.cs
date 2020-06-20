@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
-using SellingFood.ViewModel.Cart;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Linq;
@@ -72,20 +71,19 @@ namespace SellingFood.ViewModel.FoodShop
                 totalMoney += total.Total;
             }
 
-            var temp = await FirebaseHelper.GetCartModel(selectFoodList.Id);
+            var temp = await Firebase.GetCartModel(selectFoodList.Id);
 
             //Update if allready exits items
             if (temp != null)
             {
                 foreach (var items in CartStore)
                 {
-                    if(items.Id == selectFoodList.Id)
+                    if (items.Id == selectFoodList.Id)
                     {
-                        await FirebaseHelper.UpdateCartModel(items.Id, items.Name, items.Detail, items.Image.ToString(), items.Number , items.Price, items.Total);
+                        await Firebase.UpdateCartModel(items.Id, items.Name, items.Detail, items.Image, items.Number, items.Price, items.Total);
                     }
                 }
             }
-
             // Adding new items 
             else
             {
@@ -93,14 +91,11 @@ namespace SellingFood.ViewModel.FoodShop
                 {
                     if (items.Id == selectFoodList.Id)
                     {
-                        await FirebaseHelper.AddCartModel(items.Id, items.Name, items.Detail, items.Image.ToString(), items.Number, items.Price, items.Total);
+                        await Firebase.AddCartModel(items.Id, items.Name, items.Detail, items.Image, items.Number, items.Price, items.Total);
                     }
                 }
-                    
-            }
-            
 
-           
+            }
         }
         #endregion
 
@@ -125,7 +120,7 @@ namespace SellingFood.ViewModel.FoodShop
                     Id = selectFoodList.Id,
                     Name = selectFoodList.Name,
                     Detail = selectFoodList.Detail,
-                    Image = selectFoodList.Image,
+                    Image = selectFoodList.Image.ToString(),
                     Price = selectFoodList.Price,
                     Number = numbertemp.Number + 1,
                     Total = (numbertemp.Number + 1)*numbertemp.Price,
@@ -139,7 +134,7 @@ namespace SellingFood.ViewModel.FoodShop
                     foodList.Insert(item.Id-1, tempfoodlist.FirstOrDefault());
                 }
 
-                
+                //await FirebaseHelper.UpdateCartModel(selectFoodList.Id, selectFoodList.Name, selectFoodList.Detail, selectFoodList.Image.ToString(), numbertemp.Number + 1, selectFoodList.Price, (numbertemp.Number + 1) * numbertemp.Price);
 
                 //Reload food list
                 OnPropertyChanged("foodList");
@@ -161,7 +156,7 @@ namespace SellingFood.ViewModel.FoodShop
                     Id = selectFoodList.Id,
                     Name = selectFoodList.Name,
                     Detail = selectFoodList.Detail,
-                    Image = selectFoodList.Image,
+                    Image = selectFoodList.Image.ToString(),
                     Price = selectFoodList.Price,
                     Number = numbertemp.Number,
                     Total = (numbertemp.Number) * numbertemp.Price,
@@ -180,15 +175,35 @@ namespace SellingFood.ViewModel.FoodShop
 
                 //foodList.Select(c => { c.Number = numbertemp.Number + 1; return c; }).ToList();
 
-                //await FirebaseHelper.AddCartModel(selectFoodList.Id, selectFoodList.Name, selectFoodList.Detail, selectFoodList.Image.ToString(), numbertemp.Number + 1, selectFoodList.Price, (numbertemp.Number + 1) * numbertemp.Price);
+                //await FirebaseHelper.AddCartModel( selectFoodList.Id, selectFoodList.Name, selectFoodList.Detail, selectFoodList.Image.ToString(), numbertemp.Number + 1, selectFoodList.Price, (numbertemp.Number + 1) * numbertemp.Price);
             }
-            //await FirebaseHelper.AddCartModel(1, "1", "1", ImageSource.FromResource("1"), 1, 1, 1);
+            //await Firebase.AddCartModel(1, "1", "1", ("1"), 1, 1, 1);
+
+            //await SaveCartModel();
+
             LoadCartAsync();
         }
 
-        ///<summary>
-        ///
-        ///</summary>
+        /// <summary>
+        /// Add to realm
+        /// </summary>
+        //public async Task SaveCartModel()
+        //{
+        //    var numbertemp = CartStore.Where(x => x.Id == selectFoodList.Id).Select(i => new CartModel() { Number = i.Number, Price = i.Price }).Single();
+        //    RealmDB.Write(() =>
+        //    {
+        //        new CartModel()
+        //        {
+        //            Id = selectFoodList.Id,
+        //            Name = selectFoodList.Name,
+        //            Detail = selectFoodList.Detail,
+        //            Image = selectFoodList.Image.ToString(),
+        //            Price = selectFoodList.Price,
+        //            Number = numbertemp.Number + 1,
+        //            Total = (numbertemp.Number + 1) * numbertemp.Price,
+        //        };
+        //    });
+        //}
 
         #endregion
 
@@ -204,7 +219,7 @@ namespace SellingFood.ViewModel.FoodShop
                 Id = selectFoodList.Id,
                 Name = selectFoodList.Name,
                 Detail = selectFoodList.Detail,
-                Image = selectFoodList.Image,
+                Image = selectFoodList.Image.ToString(),
                 Price = selectFoodList.Price,
                 Number = 1,
             };
@@ -231,8 +246,9 @@ namespace SellingFood.ViewModel.FoodShop
             CollapseFood = true;
 
             this.foodList = new ObservableCollection<FoodShopModel>();
+
             LoadFood();
-            
+
             CartStore = new List<CartModel>();
             AddtoCart = new Command(async () => await AddToCart());
             collapseFoodList = new Command(async () => await CollapseFoodList());

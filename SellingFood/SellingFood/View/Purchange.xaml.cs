@@ -17,5 +17,28 @@ namespace SellingFood.View
         {
             InitializeComponent();
         }
+
+        private SellingFood.ViewModel.FoodShop.FoodShopViewModel ViewModel
+        {
+            get { return BindingContext as SellingFood.ViewModel.FoodShop.FoodShopViewModel; }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            try
+            {
+                ViewModel.LoadCartAsync();
+            }
+            catch
+            {
+
+            }
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ViewModel.LoadCartAsync();
+        }
     }
 }
