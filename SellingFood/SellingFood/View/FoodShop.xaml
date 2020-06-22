@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              xmlns:Helper="clr-namespace:SellingFood.Helper"
              xmlns:ViewModel="clr-namespace:SellingFood.ViewModel.FoodShop"
              x:Class="SellingFood.View.FoodShop">
@@ -77,12 +78,11 @@
                                             
                                             <Frame BorderColor="Black" >
                                                 <StackLayout Orientation="Horizontal" >
-                                                    <ImageButton Source="{Helper:ImageResource SellingFood.Images.Minus.png}" Aspect="AspectFill" HeightRequest="25"></ImageButton>
+                                                    <ImageButton  Command="{Binding Source={x:Reference lsvData},Path=BindingContext.RemovefromCart}" Source="{Helper:ImageResource SellingFood.Images.Minus.png}" Aspect="AspectFill" HeightRequest="25"></ImageButton>
 
                                                     <Label Text="{Binding Number}" TextColor="Black" FontSize="18" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
 
-                                                    <ImageButton Command="{Binding Source={x:Reference lsvData},Path=BindingContext.AddtoCart}" Source="{Helper:ImageResource SellingFood.Images.Plus.png}" Aspect="AspectFill" HeightRequest="25" >
-                                                    </ImageButton>
+                                                    <ImageButton Command="{Binding Source={x:Reference lsvData},Path=BindingContext.AddtoCart}" Source="{Helper:ImageResource SellingFood.Images.Plus.png}" Aspect="AspectFill" HeightRequest="25" ></ImageButton>
                                                 </StackLayout>
                                             </Frame>
                                         </StackLayout>

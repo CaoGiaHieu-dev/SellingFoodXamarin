@@ -13,12 +13,12 @@ namespace SellingFood
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new SellingFood.View.Login());
         }
 
         protected override void OnStart()
         {
-            AppCenter.Start("ios={Your App Secret};android={Your App Secret};uwp={Your App Secret}", typeof(Analytics), typeof(Crashes));
+            
         }
 
         protected override void OnSleep()

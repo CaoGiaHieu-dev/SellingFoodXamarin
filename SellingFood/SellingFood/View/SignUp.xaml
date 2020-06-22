@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:viewmodel="clr-namespace:SellingFood.ViewModel.FoodShop"
+             xmlns:Animation="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SellingFood.View.SignUp">
+    <pages:PopupPage.Animation>
+        <Animation:ScaleAnimation DurationIn="400" DurationOut="300" EasingIn="SinOut" EasingOut="SinIn" HasBackgroundAnimation="True" PositionIn="Center" PositionOut="Center" ScaleIn="1.2" ScaleOut="0.8"></Animation:ScaleAnimation>
+    </pages:PopupPage.Animation>
+
+    <pages:PopupPage.BindingContext>
+        <viewmodel:FoodShopViewModel></viewmodel:FoodShopViewModel>
+    </pages:PopupPage.BindingContext>
+
+    <ContentPage.Content>
+        <Frame BackgroundColor="White" HasShadow="True" CornerRadius="10" Margin="20,0,20,0" VerticalOptions="Center" HorizontalOptions="Center">
+            <StackLayout>
+                <Label Text="Registration " FontSize="Title" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <RelativeLayout Grid.Row="0" Margin="10,0,10,0" >
+                        <Entry Text="{Binding UserName,Mode=TwoWay}" FontSize="20" BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Placeholder="User Name"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1,Constant=0}" HeightRequest="50" />
+                    </RelativeLayout>
+                    <RelativeLayout Grid.Row="1" Margin="10,0,10,0" >
+                        <Entry Text="{Binding Password,Mode=TwoWay}" FontSize="20" IsPassword="True" BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Placeholder="Password"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1,Constant=0}" HeightRequest="50" />
+                    </RelativeLayout>
+                    <RelativeLayout Grid.Row="2" Margin="10,0,10,0" >
+                        <Entry Text="{Binding ConfirmPassword,Mode=TwoWay}" FontSize="20" IsPassword="True" BackgroundColor="LightGray" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Placeholder="Confirm Password"  RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1,Constant=0}" HeightRequest="50" />
+                    </RelativeLayout>
+                </Grid>
+
+                <Button Text="SignUp" TextColor="Black" BackgroundColor="#6DB64C" Command="{Binding Registration}"></Button>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</pages:PopupPage>

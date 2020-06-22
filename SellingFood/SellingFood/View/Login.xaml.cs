@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,16 @@ using Xamarin.Forms.Xaml;
 namespace SellingFood.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Nofication : ContentPage
+    public partial class Login : ContentPage
     {
-        public Nofication()
+        public Login()
         {
             InitializeComponent();
+        }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushPopupAsync(new SignUp());
         }
     }
 }

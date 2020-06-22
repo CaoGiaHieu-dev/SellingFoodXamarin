@@ -3,9 +3,11 @@ using Firebase.Database.Query;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Microsoft.AppCenter.Crashes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SellingFood.Model.Cart;
+using SellingFood.Model.User;
 using SellingFood.View;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace SellingFood.Model
     public class FirebaseHelper
     {
         #region Config firebase
-        public FirebaseClient firebase = new FirebaseClient ("https://foodshop-2957e.firebaseio.com/");
+        public FirebaseClient firebase = new FirebaseClient("https://foodshop-2957e.firebaseio.com/");
 
         static IFirebaseConfig config = new FirebaseConfig
         {
@@ -33,10 +35,21 @@ namespace SellingFood.Model
         IFirebaseClient client = new FireSharp.FirebaseClient(config);
         #endregion
 
+        #region field
+        public DateTime Time()
+        {
+            DateTime today = DateTime.Now;
+
+            return today;
+        }
+        #endregion
+
         public FirebaseHelper()
         {
-            
+
         }
+
+        #region CartModels
 
         /// <summary>
         /// Get all Items
@@ -52,14 +65,14 @@ namespace SellingFood.Model
 
                 List<string> listValue = new List<string>();
 
-                FirebaseResponse response = await client.GetAsync("CartModels//");
+                FirebaseResponse response = await client.GetAsync("CartModels/");
 
                 //Convert json
                 dynamic mList = JsonConvert.DeserializeObject<dynamic>(response.Body);
 
                 foreach (var itemDynamic in mList)
                 {
-                    if(itemDynamic != null)
+                    if (itemDynamic != null)
                     {
                         foreach (var items in itemDynamic)
                         {
@@ -117,12 +130,12 @@ namespace SellingFood.Model
         /// <param name="Price"></param>
         /// <param name="Total"></param>
         /// <returns></returns>
-        public async Task AddCartModel(int Id, string Name, string Detail, ImageSource Image, int Number, float Price, float Total)
+        public async Task AddCartModel(string username, int Id, string Name, string Detail, ImageSource Image, int Number, float Price, float Total)
         {
-            
+
             try
             {
-                await client.SetAsync("CartModels/" + Id, new CartModel()
+                await client.SetAsync("CartModels/" + username + "/" + Time().ToString("dd-MM-yyyy/hh-mm") + "/" + Id, new CartModel()
                 {
                     Id = Id,
                     Name = Name,
@@ -186,7 +199,7 @@ namespace SellingFood.Model
         /// <param name="Price"></param>
         /// <param name="Total"></param>
         /// <returns></returns>
-        public async Task UpdateCartModel(int Id, string Name, string Detail, ImageSource Image, int Number, float Price, float Total)
+        public async Task UpdateCartModel(string username, int Id, string Name, string Detail, ImageSource Image, int Number, float Price, float Total)
         {
             //var toUpdateCartModel = (await firebase.Child("CartModels").OnceAsync<CartModel>()).Where(a => a.Object.Id == Id).FirstOrDefault();
 
@@ -203,7 +216,7 @@ namespace SellingFood.Model
 
             try
             {
-                await client.SetAsync("CartModels/" + Id, new CartModel()
+                await client.SetAsync("CartModels/" + username + "/" + Time().ToString("dd-MM-yyyy/hh-mm") + "/" + Id, new CartModel()
                 {
                     Id = Id,
                     Name = Name,
@@ -232,5 +245,208 @@ namespace SellingFood.Model
             await firebase.Child("CartModels").Child(toDeleteCartModel.Key).DeleteAsync();
 
         }
+
+        #endregion
+
+        #region UserModels
+
+        /// <summary>
+        /// Get all User
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<UserModel>> GetallUser(string username)
+        {
+            try
+            {
+                List<UserModel> ListCart = new List<UserModel>();
+
+                List<string> listValue = new List<string>();
+
+                FirebaseResponse response = await client.GetAsync("UserModels/" + username);
+
+                //Convert json
+                dynamic mList = JsonConvert.DeserializeObject<dynamic>(response.Body);
+
+                foreach (var itemDynamic in mList)
+                {
+                    if (itemDynamic != null)
+                    {
+                        foreach (var items in itemDynamic)
+                        {
+                            var value = items.Value;
+                            listValue.Add(value.ToString());
+                        }
+                    }
+                }
+                var list = new UserModel()
+                {
+                    UserName = listValue[1],
+                    Password = listValue[0]
+                };
+                ListCart.Add(list);
+                return ListCart;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<bool> GetUser(string username, string password)
+        {
+            try
+            {
+
+                var allUserModels = await GetallUser(username);
+
+                if (allUserModels.Where(a => a.UserName == username && a.Password == password).FirstOrDefault() != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                //await firebase.Child("CartModels").Child(FirebaseKeyGenerator.Next()).OnceAsync<CartModel>();
+
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Create new user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task AddNewUser(string username, string password)
+        {
+            try
+            {
+                await client.SetAsync("UserModels/" + username, new UserModel()
+                {
+                    UserName = username,
+                    Password = password
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+            }
+        }
+
+        #endregion
+
+        #region HistoryModels
+
+        /// <summary>
+        /// Get all History
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<HistoryModel>> GetHistory(string username)
+        {
+            try
+            {
+                List<HistoryModel> ListHistory = new List<HistoryModel>();
+
+                List<string> listValue = new List<string>();
+
+                FirebaseResponse response = await client.GetAsync("HistoryModels/" + username +"/"+ Time().ToString("dd-MM-yyyy"));
+
+                //Convert json
+                dynamic mList = JsonConvert.DeserializeObject<dynamic>(response.Body);
+
+                foreach (var itemDynamic in mList)
+                {
+                    if (itemDynamic != null)
+                    {
+                        foreach (var items in itemDynamic)
+                        {
+                            if( items != null)
+                            {
+                                foreach (var item in items)
+                                {
+                                    var value = item.Value;
+                                    listValue.Add(value.ToString());
+                                }
+                            }
+                            var list = new HistoryModel()
+                            {
+                                Datetime = Time().ToString("dd-MM-yyyy"),
+                                Time = itemDynamic.Name,
+                                Total = float.Parse(listValue[0]),
+                                TotalItems = int.Parse(listValue[1])
+                            };
+                            ListHistory.Add(list);
+                        }
+                    }
+                }
+                
+                return ListHistory;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return null;
+            }
+        }
+
+        
+        public async Task<bool> GetHistoryofUser(string username)
+        {
+            try
+            {
+
+                var allUserModels = await GetHistory(username);
+
+                if (allUserModels.Where(a => a.Datetime == Time().ToString("dd-MM-yyyy")).FirstOrDefault() != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                //await firebase.Child("CartModels").Child(FirebaseKeyGenerator.Next()).OnceAsync<CartModel>();
+
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return false;
+            }
+        }
+
+        
+        public async Task AddNewHistory(string username, int itensNumber , float Total)
+        {
+            try
+            {
+                await client.SetAsync("HistoryModels/" + username +"/"+Time().ToString("dd-MM-yyyy/hh-mm"), new HistoryModel()
+                {
+                    TotalItems = itensNumber,
+                    Total = Total
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+            }
+        }
+
+        #endregion
     }
 }

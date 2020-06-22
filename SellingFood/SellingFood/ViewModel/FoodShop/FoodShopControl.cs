@@ -1,6 +1,6 @@
-﻿using Realms;
-using SellingFood.Model.Cart;
+﻿using SellingFood.Model.Cart;
 using SellingFood.Model.FoodShop;
+using SellingFood.Model.User;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +15,10 @@ namespace SellingFood.ViewModel.FoodShop
     {
         #region Property
         public string url = "SellingFood.Images.";
+
+        public static int Selectedid;
+        //Nativigation
+        public INavigation Navigation { get; set; }
 
         //Search Command Execute
         private void SearchCommandExecute()
@@ -36,14 +40,21 @@ namespace SellingFood.ViewModel.FoodShop
         #endregion
 
         #region DataStore
-        //CartStore
+        //Cart Store
         public static List<CartModel> CartStore { get; set; }
+
+        //History Store
+        public static List<HistoryModel> HistoryStore { get; set; }
+
+        //Purchange Store
+        public static List<CartModel> PurchangeStore { get; set; }
+
+        //User Store
+        public static List<UserModel> UserStore { get; set; }
 
         //Firebase
         public Model.FirebaseHelper Firebase = new Model.FirebaseHelper();
 
-        //Realm
-        //public Realm RealmDB = Realm.GetInstance();
         #endregion
 
         #region Model
@@ -60,6 +71,42 @@ namespace SellingFood.ViewModel.FoodShop
                 if (_cartList != value)
                 {
                     _cartList = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        // List Purchange
+        private ObservableCollection<CartModel> _PurchageList { get; set; }
+        public ObservableCollection<CartModel> PurchageList
+        {
+            get
+            {
+                return _PurchageList;
+            }
+            set
+            {
+                if (_PurchageList != value)
+                {
+                    _PurchageList = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //History List
+        private ObservableCollection<HistoryModel> _HistoryList { get; set; }
+        public ObservableCollection<HistoryModel> HistoryList
+        {
+            get
+            {
+                return _HistoryList;
+            }
+            set
+            {
+                if (_HistoryList != value)
+                {
+                    _HistoryList = value;
                     OnPropertyChanged();
                 }
             }
@@ -85,6 +132,7 @@ namespace SellingFood.ViewModel.FoodShop
                 OnPropertyChanged("foodList");
             }
         }
+
         #endregion
 
         #region Command
@@ -101,8 +149,20 @@ namespace SellingFood.ViewModel.FoodShop
             }
         }
 
+        //Purchange
+        public ICommand Purchange { get; set; }
+
         // Add to cart
         public ICommand AddtoCart { get; set; }
+
+        // Remove from Cart
+        public ICommand RemovefromCart { get; set; }
+
+        // Login 
+        public ICommand Login { get; set; }
+
+        // Registration
+        public ICommand Registration { get; set; }
 
         //Collapse food list
         public ICommand collapseFoodList { get; set; }
@@ -120,6 +180,7 @@ namespace SellingFood.ViewModel.FoodShop
                 if(_selectFoodList != value)
                 {
                     _selectFoodList = value;
+                    Selectedid = _selectFoodList.Id;
                 }
             }
         }
@@ -129,9 +190,24 @@ namespace SellingFood.ViewModel.FoodShop
         //Number items
         private Boolean _CollapseFood;
         public Boolean CollapseFood { get => _CollapseFood; set { _CollapseFood = value; OnPropertyChanged(); } }
+
         //Total cart list
         private float _totalMoney;
         public float totalMoney { get => _totalMoney; set { _totalMoney = value; OnPropertyChanged(); } }
+
+        //UserName
+        private string _UserName;
+        public string UserName { get => _UserName; set { _UserName = value; OnPropertyChanged(); } }
+
+        //Password
+        private string _Password;
+        public string Password { get => _Password; set { _Password = value; OnPropertyChanged(); } }
+
+        //ConfirmPassword
+        private string _ConfirmPassword;
+        public string ConfirmPassword { get => _ConfirmPassword; set { _ConfirmPassword = value; OnPropertyChanged(); } }
+        
+
         #endregion
 
     }

@@ -18,9 +18,9 @@
 
         </View:Order>
 
-        <View:Nofication IconImageSource="{Helper:ImageResource SellingFood.Images.Notification.png}" >
+        <View:History IconImageSource="{Helper:ImageResource SellingFood.Images.Notification.png}" >
 
-        </View:Nofication>
+        </View:History>
 
     </TabbedPage.Children>
 </TabbedPage>

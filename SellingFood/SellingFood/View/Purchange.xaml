@@ -21,7 +21,7 @@
             <StackLayout>
                 <Label Text="Order confirmation" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
 
-                <ListView ItemsSource="{Binding cartList}" HasUnevenRows="True" BackgroundColor="White" SeparatorColor="#DBF26F" SelectionMode="None">
+                <ListView ItemsSource="{Binding PurchageList}" HasUnevenRows="True" BackgroundColor="White" SeparatorColor="#DBF26F" SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -38,7 +38,7 @@
 
                                         <Label Grid.Row="0"  Text="{Binding Name}" HorizontalOptions="CenterAndExpand" FontSize="Medium"></Label>
 
-                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Number}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Number}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20,0,20,0"></Label>
 
                                         <Label Grid.Column="2" Grid.Row="0" Text="{Binding Price, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
 
@@ -52,7 +52,7 @@
 
                 <Label Text="{Binding totalMoney , StringFormat='{0:$,0,0}'}" FontSize="30" HorizontalOptions="End"></Label>
                 
-                <Button Text="Order" TextColor="Black" BackgroundColor="#6DB64C" Command="{Binding }"></Button>
+                <Button Text="Order" TextColor="Black" BackgroundColor="#6DB64C" Command="{Binding Purchange}"></Button>
             </StackLayout>
         </Frame>
     </ContentPage.Content>

@@ -11,13 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace SellingFood.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Purchange : PopupPage
+    public partial class SignUp : PopupPage
     {
-        public Purchange()
+        public SignUp()
         {
             InitializeComponent();
         }
-
         private SellingFood.ViewModel.FoodShop.FoodShopViewModel ViewModel
         {
             get { return BindingContext as SellingFood.ViewModel.FoodShop.FoodShopViewModel; }
@@ -28,17 +27,13 @@ namespace SellingFood.View
             base.OnAppearing();
             try
             {
-                ViewModel.LoadPurchageList();
+                ViewModel.LoadCartAsync();
             }
             catch
             {
 
             }
-        }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            ViewModel.LoadPurchageList();
+
         }
     }
 }
