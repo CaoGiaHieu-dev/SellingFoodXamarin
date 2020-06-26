@@ -11,32 +11,58 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Avatar.png" />
     <None Remove="Images\Cart.png" />
+    <None Remove="Images\ComGa.jpg" />
+    <None Remove="Images\ComHaiSan.jpg" />
+    <None Remove="Images\ComVit.jpg" />
+    <None Remove="Images\CuaHoangDe.jpg" />
     <None Remove="Images\Home.png" />
+    <None Remove="Images\Infomation.png" />
+    <None Remove="Images\LogoBrand.jpg" />
     <None Remove="Images\Minus.png" />
+    <None Remove="Images\NguFood.jpg" />
     <None Remove="Images\Notification.png" />
     <None Remove="Images\Order.png" />
     <None Remove="Images\Plus.png" />
+    <None Remove="Images\WibuFood.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\Avatar.png" />
     <EmbeddedResource Include="Images\Cart.png" />
+    <EmbeddedResource Include="Images\ComGa.jpg" />
+    <EmbeddedResource Include="Images\ComHaiSan.jpg" />
+    <EmbeddedResource Include="Images\ComVit.jpg" />
+    <EmbeddedResource Include="Images\CuaHoangDe.jpg" />
     <EmbeddedResource Include="Images\Home.png" />
+    <EmbeddedResource Include="Images\Infomation.png" />
+    <EmbeddedResource Include="Images\LogoBrand.jpg" />
     <EmbeddedResource Include="Images\Minus.png" />
+    <EmbeddedResource Include="Images\NguFood.jpg" />
     <EmbeddedResource Include="Images\Notification.png" />
     <EmbeddedResource Include="Images\Order.png" />
     <EmbeddedResource Include="Images\Plus.png" />
+    <EmbeddedResource Include="Images\WibuFood.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseDatabase.net" Version="4.0.4" />
+    <PackageReference Include="FireSharp" Version="2.0.4" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.2.2" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.2.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.3" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.847" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="View\AdminPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="View\DetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

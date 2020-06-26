@@ -13,12 +13,21 @@ using SQLite;
 using SellingFood.Model;
 using SellingFood.View;
 using SellingFood.Model.User;
+using Rg.Plugins.Popup.Extensions;
 
 namespace SellingFood.ViewModel.FoodShop
 {
     public class FoodShopViewModel : FoodShopControl
     {
         #region Display Value
+        /// <summary>
+        /// Get all user
+        /// </summary>
+        /// <returns></returns>
+        public async Task GetAllUser()
+        {
+            
+        }
 
         /// <summary>
         /// Load FoodList
@@ -131,7 +140,7 @@ namespace SellingFood.ViewModel.FoodShop
 
             HistoryStore = await Firebase.GetHistory(userinfo.UserName);
 
-            HistoryList = new ObservableCollection<HistoryModel>(HistoryStore.OrderByDescending(a=>a.Time));
+            HistoryList = new ObservableCollection<HistoryModel>(HistoryStore.OrderByDescending(a => a.Datetime).ThenByDescending(b=>b.Time));
             //if (temp != null)
             //{
             //    foreach (var items in temp)
@@ -151,6 +160,11 @@ namespace SellingFood.ViewModel.FoodShop
         #endregion
 
         #region Property
+
+        private void CloseMenu()
+        {
+            (Application.Current.MainPage as MasterDetailPage).IsPresented = false;
+        }
 
         /// <summary>
         /// Add to cart store
@@ -281,6 +295,8 @@ namespace SellingFood.ViewModel.FoodShop
             //await Save CartModel;
             LoadCartAsync();
         }
+
+        
         #endregion
 
         #region Command
@@ -302,6 +318,7 @@ namespace SellingFood.ViewModel.FoodShop
 
             await Firebase.AddNewHistory(userinfo.UserName, PurchangeStore.Count(), totalMoney);
 
+            await Navigation.PopPopupAsync();
             //var temp = await Firebase.GetCartModel(Selectedid);
 
             //Update if allready exits items
@@ -337,6 +354,8 @@ namespace SellingFood.ViewModel.FoodShop
             if( Password == ConfirmPassword)
             {
                 await Firebase.AddNewUser(UserName, Password);
+
+                await Navigation.PopPopupAsync();
             }
         }
 
@@ -424,6 +443,33 @@ namespace SellingFood.ViewModel.FoodShop
                 CollapseFood = false;
             OnPropertyChanged();
         }
+
+        private async Task Logoutpage()
+        {
+            Application.Current.MainPage = new Login();
+        }
+
+        private async Task Home()
+        {
+            (Application.Current.MainPage as MasterDetailPage).Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(View.FoodShop)));
+            CloseMenu();
+            OnPropertyChanged();
+        }
+
+        private async Task Order()
+        {
+            //(Application.Current.MainPage as MasterDetailPage).Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(View.Order)));
+            ((App.Current.MainPage as MasterDetailPage).Detail as TabbedPage).TabIndex = 2;
+            CloseMenu();
+            OnPropertyChanged();
+        }
+
+        private async Task History()
+        {
+            (Application.Current.MainPage as MasterDetailPage).Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(View.History)));
+            CloseMenu();
+            OnPropertyChanged();
+        }
         #endregion
 
         public FoodShopViewModel()
@@ -457,6 +503,14 @@ namespace SellingFood.ViewModel.FoodShop
             Login = new Command(async () => await LoginMainPage());
 
             Registration = new Command(async () => await RegistrationNewUser());
+
+            SwitchHome = new Command(async () => await Home());
+
+            SwitchOder = new Command(async () => await Order());
+
+            SwitchHistory = new Command(async () => await History());
+
+            Logout = new Command(async () => await Logoutpage());
         }
     }
 }

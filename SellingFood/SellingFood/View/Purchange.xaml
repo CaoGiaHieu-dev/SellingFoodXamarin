@@ -51,6 +51,12 @@
                 </ListView>
 
                 <Label Text="{Binding totalMoney , StringFormat='{0:$,0,0}'}" FontSize="30" HorizontalOptions="End"></Label>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Address : " VerticalOptions="CenterAndExpand" ></Label>
+                    
+                    <Entry Placeholder="Type your Address"></Entry>
+                </StackLayout>
                 
                 <Button Text="Order" TextColor="Black" BackgroundColor="#6DB64C" Command="{Binding Purchange}"></Button>
             </StackLayout>

@@ -44,11 +44,6 @@ namespace SellingFood.Model
         }
         #endregion
 
-        public FirebaseHelper()
-        {
-
-        }
-
         #region CartModels
 
         /// <summary>
@@ -361,9 +356,7 @@ namespace SellingFood.Model
             {
                 List<HistoryModel> ListHistory = new List<HistoryModel>();
 
-                List<string> listValue = new List<string>();
-
-                FirebaseResponse response = await client.GetAsync("HistoryModels/" + username +"/"+ Time().ToString("dd-MM-yyyy"));
+                FirebaseResponse response = await client.GetAsync("HistoryModels/" + username +"/");
 
                 //Convert json
                 dynamic mList = JsonConvert.DeserializeObject<dynamic>(response.Body);
@@ -372,25 +365,32 @@ namespace SellingFood.Model
                 {
                     if (itemDynamic != null)
                     {
-                        foreach (var items in itemDynamic)
+                        foreach (var itemsbyday in itemDynamic)
                         {
-                            if( items != null)
+                            foreach (var items in itemsbyday)
                             {
                                 foreach (var item in items)
                                 {
-                                    var value = item.Value;
-                                    listValue.Add(value.ToString());
+                                    List<string> listValue = new List<string>();
+
+                                    foreach (var info in item)
+                                    {
+                                        var value = info.Value;
+                                        listValue.Add(value.ToString());
+                                    }
+                                    var list = new HistoryModel()
+                                    {
+                                        Datetime = itemDynamic.Name,
+                                        Time = items.Name,
+                                        Total = float.Parse(listValue[0]),
+                                        TotalItems = int.Parse(listValue[1])
+                                    };
+
+                                    ListHistory.Add(list);
                                 }
                             }
-                            var list = new HistoryModel()
-                            {
-                                Datetime = Time().ToString("dd-MM-yyyy"),
-                                Time = itemDynamic.Name,
-                                Total = float.Parse(listValue[0]),
-                                TotalItems = int.Parse(listValue[1])
-                            };
-                            ListHistory.Add(list);
                         }
+                        
                     }
                 }
                 
@@ -403,13 +403,19 @@ namespace SellingFood.Model
             }
         }
 
-        
+        /// <summary>
+        /// Get History of User
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async Task<bool> GetHistoryofUser(string username)
         {
             try
             {
 
                 var allUserModels = await GetHistory(username);
+
+                allUserModels.OrderByDescending(a => a.Datetime);
 
                 if (allUserModels.Where(a => a.Datetime == Time().ToString("dd-MM-yyyy")).FirstOrDefault() != null)
                 {
@@ -430,7 +436,13 @@ namespace SellingFood.Model
             }
         }
 
-        
+        /// <summary>
+        /// Add New History
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="itensNumber"></param>
+        /// <param name="Total"></param>
+        /// <returns></returns>
         public async Task AddNewHistory(string username, int itensNumber , float Total)
         {
             try

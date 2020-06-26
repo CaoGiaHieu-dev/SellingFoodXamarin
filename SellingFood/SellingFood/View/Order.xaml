@@ -38,9 +38,9 @@
                                 <StackLayout Padding="10" >
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="200"></ColumnDefinition>
-                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
                                             <ColumnDefinition Width="auto"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
@@ -54,9 +54,9 @@
 
                                         <Label Grid.Column="1" Grid.Row="1" Text="{Binding Number}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
 
-                                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding Price, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding Price, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" ></Label>
 
-                                        <Label Grid.Column="3" Grid.Row="1" Text="{Binding Total, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                                        <Label Grid.Column="3" Grid.Row="1" Text="{Binding Total, StringFormat='{0:$,0,0}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="50,0,0,0"></Label>
                                     </Grid>
                                 </StackLayout>
                             </Frame>

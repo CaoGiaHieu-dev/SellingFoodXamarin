@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SellingFood.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace SellingFood
             InitializeComponent();
 
         }
-        
+
+        private void btnCompanies_Clicked(object sender, EventArgs e)
+        {
+        }
     }
 }

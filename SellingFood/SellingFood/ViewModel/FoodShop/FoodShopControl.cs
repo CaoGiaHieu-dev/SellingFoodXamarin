@@ -167,6 +167,18 @@ namespace SellingFood.ViewModel.FoodShop
         //Collapse food list
         public ICommand collapseFoodList { get; set; }
 
+        //Switch Home
+        public ICommand SwitchHome { get; set; }
+
+        //Switch Order
+        public ICommand SwitchOder { get; set; }
+
+        //Switch History
+        public ICommand SwitchHistory { get; set; }
+
+        //Switch Log out
+        public ICommand Logout { get; set; }
+
         //Select FoodList
         private FoodShopModel _selectFoodList { get; set; }
         public FoodShopModel selectFoodList

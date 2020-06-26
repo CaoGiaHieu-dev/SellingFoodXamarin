@@ -6,17 +6,77 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              IsPresented="False"
+             xmlns:Helper="clr-namespace:SellingFood.Helper"
+             xmlns:ViewModel="clr-namespace:SellingFood.ViewModel.FoodShop"
              NavigationPage.HasNavigationBar="True"
              x:Class="SellingFood.MainPage">
 
-    <MasterDetailPage.Master>
-        <ContentPage Title="Menu">
-            <StackLayout >
-                <Button Text="Test"></Button>
-            </StackLayout>
+    <MasterDetailPage.BindingContext>
+        <ViewModel:FoodShopViewModel></ViewModel:FoodShopViewModel>
+    </MasterDetailPage.BindingContext>
+    
+    <MasterDetailPage.Master >
+        <ContentPage Title="Master" Padding="10" BackgroundColor="Gray">
+            <ContentPage.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackLayout Padding="0,10,0,0" BackgroundColor="LightGray">
+                        <StackLayout BackgroundColor="Aqua" HeightRequest="150">
+                            <Frame HasShadow="False" CornerRadius="100" HeightRequest="100" WidthRequest="100" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="0" IsClippedToBounds="True">
+                                <Image Source="{Helper:ImageResource SellingFood.Images.Avatar.png}" Aspect="Fill" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer  Command="{Binding AvatarTap}" NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Frame>
+                        </StackLayout>
+                        <ScrollView Padding="20">
+                            <StackLayout Margin="5,30,5,5">
+                                <!-- Movie -->
+                                <Frame HasShadow="False" IsClippedToBounds="True" BackgroundColor="White" BorderColor="WhiteSmoke" Padding="1" CornerRadius="5" Margin="0,0,0,5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SwitchHome}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                    <Label Text="Home" TextColor="Black" FontSize="20" HorizontalTextAlignment="Start" Padding="20,0,0,0"></Label>
+                                </Frame>
+                                <!-- Countries -->
+                                <Frame HasShadow="False" IsClippedToBounds="True" BackgroundColor="White" BorderColor="WhiteSmoke" Padding="1" CornerRadius="5" Margin="0,0,0,5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SwitchOder}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                    <Label Text="Order" TextColor="Black" FontSize="20" HorizontalTextAlignment="Start" Padding="20,0,0,0"></Label>
+                                </Frame>
+                                <!-- Contacts -->
+                                <Frame HasShadow="False" IsClippedToBounds="True" BackgroundColor="White" BorderColor="WhiteSmoke" Padding="1" CornerRadius="5"  Margin="0,0,0,5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SwitchHistory}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                    <Label Text="History" TextColor="Black" FontSize="20" HorizontalTextAlignment="Start" Padding="20,0,0,0"></Label>
+                                </Frame>
+
+
+                                <!-- 
+                            <Button x:Name="btnMovieApp" Text="Movie " Command="{Binding MovieAppClick}"></Button>
+                            <Button x:Name="btnCountries" Text="Countries " Command="{Binding CountriesClick}"></Button>
+                            <Button x:Name="btnContacts" Text="Contacts" Command="{Binding ContactsClick}"></Button>
+                            <Button x:Name="btnStudentList" Text="Student List" Command="{Binding StudentClick}"></Button>
+                            <Button x:Name="btnColor" Text="Color" Command="{Binding ColorClick}"></Button>
+                            <Button x:Name="btnCompanies" Text="Companies" Command="{Binding CompaniesClick}"></Button>
+                            -->
+
+                            </StackLayout>
+                        </ScrollView>
+                    </StackLayout>
+                    <Button x:Name="btnCompanies" Text="Log out" Command="{Binding Logout}"  VerticalOptions="End" Grid.Row="1"></Button>
+                </Grid>
+                
+            </ContentPage.Content>
         </ContentPage>
     </MasterDetailPage.Master>
-    
+
     <MasterDetailPage.Detail>
         <View:DetailPage></View:DetailPage>
     </MasterDetailPage.Detail>
